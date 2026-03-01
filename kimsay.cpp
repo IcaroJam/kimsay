@@ -57,17 +57,17 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	// first of this nonoptions
 	if (argc > 1) {
 		if (!kim.revacholianTxt) {
-			std::string	text;
-
 			for (int i = 1; i < argc; i++) {
-				if (text.length())
-					text += " ";
-				text += argv[i];
+				if (kim.rawText.length())
+					kim.rawText += " ";
+				kim.rawText += argv[i];
 			}
-			kim.rawText = text;
 		}
 	} else {
-		std::cin >> kim.rawText;
+		kim.rawText = std::string( // Read until EOF
+			std::istream_iterator<char>(std::cin >> std::noskipws),
+			std::istream_iterator<char>()
+		);
 	}
 }
 
@@ -110,7 +110,7 @@ void processKim(t_kim &kim) {
 	file.close();
 }
 
-void processText(t_kim &kim, int argc, char **argv) {
+void processText(t_kim &kim) {
 	if (kim.revacholianTxt) {
 		std::ifstream f("dialog.json");
 		if (f.fail()) {
@@ -178,8 +178,8 @@ int main(int argc, char **argv) {
 	// Get the file and count its width and height in utf chars
 	processKim(kim);
 
-	// Get the raw text that will be displayed and format it
-	processText(kim, argc, argv);
+	// Get the formatted text that will be displayed
+	processText(kim);
 
 	// Format the output buffer
 	formatKim(kim);
