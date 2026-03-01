@@ -1,8 +1,9 @@
-#include <iostream>
-#include <random>
-#include <sstream>
-#include <iterator>
+#include <unistd.h>
 #include <fstream>
+#include <iostream>
+#include <sstream>
+#include <random>
+#include <iterator>
 
 #include "TextFlow.hpp"
 #include "json.hpp"
@@ -12,22 +13,19 @@
 
 
 typedef struct kim {
-	std::ifstream		file;
-	int					file_w;
-	int					file_h;
+	bool				revacholianTxt;
 
 	std::stringstream	img;
 	int					img_w;
 	int					img_h;
 
-	std::string			text;
+	std::string			rawText;
+	std::stringstream	text;
 	int					text_w;
 	int					text_h;
 
 	std::stringstream	out;
 } t_kim;
-
-
 
 int utf8len(const char *s)
 {
@@ -37,42 +35,87 @@ int utf8len(const char *s)
 	return len;
 }
 
+
+
+void processArgs(t_kim &kim, int argc, char **argv) {
+	int	opt;
+
+	while ((opt = getopt(argc, argv, "r")) != -1) {
+		switch (opt)
+		{
+		case 'r':
+			kim.revacholianTxt = true;
+			break;
+		default:
+			std::cerr << "Usage: kimsay [-r] [text]..." << std::endl;
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	// The getopt function permutes argv so nonoptions are
+	// left at the end. The global var optind holds the index of the
+	// first of this nonoptions
+	if (argc > 1) {
+		if (!kim.revacholianTxt) {
+			std::string	text;
+
+			for (int i = 1; i < argc; i++) {
+				if (text.length())
+					text += " ";
+				text += argv[i];
+			}
+			kim.rawText = text;
+		}
+	} else {
+		std::cin >> kim.rawText;
+	}
+}
+
 void processKim(t_kim &kim) {
-	std::string	line;
+	std::ifstream	file;
+	int				file_w;
+	int				file_h;
 
-	kim.file.open("kim");
-	if (kim.file.fail()) {
+	std::string		line;
+
+	// Open the file with the art
+	file.open("kim");
+	if (file.fail()) {
 		std::cerr << "Failed to open the kimFile :(" << std::endl;
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
-	while (std::getline(kim.file, line)) {
+	// Count its size in unicode chars
+	while (std::getline(file, line)) {
 		int	len = utf8len(line.c_str());
-		if (len > kim.file_w)
-			kim.file_w = len;
-		kim.file_h++;
+		if (len > file_w)
+			file_w = len;
+		file_h++;
 	}
-	kim.file.clear();
-	kim.file.seekg(0);
+	// Reset the file reader
+	file.clear();
+	file.seekg(0);
 
+	// Build the framed image
 	std::string frame = "█";
+	kim.img_w = file_w + 4;
+	kim.img_h = file_h + 2;
 
-	std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.file_w + 4, frame);
+	std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.img_w, frame);
 	kim.img << "\n";
-	while (std::getline(kim.file, line))
+	while (std::getline(file, line))
 		kim.img << frame << frame << line << frame << frame << std::endl;
-	std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.file_w + 4, frame);
-	kim.img_w = kim.file_w + 4;
-	kim.img_h = kim.file_h + 2;
+	std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.img_w, frame);
+
+	file.close();
 }
 
 void processText(t_kim &kim, int argc, char **argv) {
-	if (argc == 1) {
-		// std::cin >> kim.text;
+	if (kim.revacholianTxt) {
 		std::ifstream f("dialog.json");
 		if (f.fail()) {
 			std::cerr << "Failed to open the dialog archive :(" << std::endl;
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		nlohmann::json					data = nlohmann::json::parse(f);
 		auto							arr = data["kim"];
@@ -81,49 +124,56 @@ void processText(t_kim &kim, int argc, char **argv) {
 		std::uniform_int_distribution<>	dist(0, arr.size());
 		int								i = dist(gen);
 
-		kim.text = arr[i].get<std::string>();
-	} else {
-		for (int i = 1; i < argc; i++) {
-			if (kim.text.length())
-				kim.text += " ";
-			kim.text += argv[i];
-		}
+		kim.rawText = arr[i].get<std::string>();
 	}
 
-	kim.text = TextFlow::Column("KIM KITSURAGI - " + kim.text)
-		.width(MAX_TXT_W).indent(2).toString().erase(0, 2);
+	kim.text = std::stringstream(
+		TextFlow::Column("KIM KITSURAGI - " + kim.rawText)
+			.width(MAX_TXT_W).indent(2).toString().erase(0, 2)
+	);
 }
 
 void formatKim(t_kim &kim) {
-	std::stringstream textStream(kim.text);
 	std::string img, txt;
 
+	// Start the text after the top of the frame
 	std::getline(kim.img, img);
-	kim.out << img << std::endl;
-	while (!kim.img.eof() || !textStream.eof()) {
+	kim.out << std::endl << img << std::endl;
+
+	// Build the output with image and text side by side,
+	// separated by some padding and filling any empty space
+	// with whitespace
+	while (!kim.img.eof() || !kim.text.eof()) {
 		std::getline(kim.img, img);
-		std::getline(textStream, txt);
+		std::getline(kim.text, txt);
 
 		if (!img.empty()) {
+			// If there's image left put it in and either skip or
+			// put the padding in if there's also text
 			kim.out << img;
 			if (txt.empty())
 				kim.out << std::endl;
 			else
 				kim.out << "  ";
 		} else {
+			// If the text is taller than the image fill with
+			// empty padding to keep alignment
 			std::fill_n(std::ostream_iterator<std::string>(kim.out), kim.img_w + 2, " ");
 		}
-
+		// If there's text left put it in
 		if (!txt.empty()) {
 			kim.out << txt << std::endl;
 		}
-
+		// Reset the tmps so ifs are handled correctly next loop
 		img = txt = "";
 	}
 }
 
 int main(int argc, char **argv) {
 	t_kim				kim;
+
+	// Handle and depurate command line arguments
+	processArgs(kim, argc, argv);
 
 	// Get the file and count its width and height in utf chars
 	processKim(kim);
@@ -135,8 +185,6 @@ int main(int argc, char **argv) {
 	formatKim(kim);
 
 	std::cout << kim.out.rdbuf();
-
-	kim.file.close();
 }
 
 /*
@@ -151,7 +199,8 @@ int main(int argc, char **argv) {
 */
 
 // TODO:
-// - Flag to autopick dialog (cin/args otherwise)
-// - Better customizability
-// - Code cleanup because right now it's garbageeee
-// - Install script
+// - [X] Flag to autopick dialog (cin/args otherwise)
+// - [ ] Better customizability (alt frames, imgs)
+// - [ ] Code cleanup because right now it's garbageeee
+// - [ ] Install script
+// - [ ] Man page
