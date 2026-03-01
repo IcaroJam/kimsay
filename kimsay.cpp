@@ -121,7 +121,7 @@ void processText(t_kim &kim, int argc, char **argv) {
 		auto							arr = data["kim"];
 		std::random_device				rd;
 		std::mt19937 					gen(rd());
-		std::uniform_int_distribution<>	dist(0, arr.size());
+		std::uniform_int_distribution<>	dist(0, arr.size() - 1);
 		int								i = dist(gen);
 
 		kim.rawText = arr[i].get<std::string>();
