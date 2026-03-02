@@ -1,0 +1,49 @@
+.\" The man page for the kimsay command
+.Dd March 2, 2026
+.Dt kimsay 6
+.Os
+.Sh NAME
+.Nm kimsay
+.Nd Get some of the wisdom of Precinct 57's best liutenant or make him speak your own.
+.Sh SYNOPSIS
+.Nm
+.Op Fl r
+.Op Fl f Ar artFile
+.Op Ar TEXT...
+.Sh DESCRIPTION
+.Nm Kimsay
+prints an ASCII art portrait of Liutenant Kim Kitsuragi followed by some text in the in-game dialog format.
+If no arguments are provided it reads from standard input until EOF. Otherwise it concatenates the provided 
+.Ar TEXTs
+, separated by a space.
+
+If
+.Fl r
+is provided,
+.Ar TEXTs
+are ignored and random in-game dialog is used instead.
+
+The formatted text is word-wrapped at 42 characters. The resulting text and the portrait are printed to standard output side by side, separated by a 2-wide padding of spaces.
+
+
+The
+.Fl f
+argument is not implemented as of yet.
+.Sh FILES
+.Bl -tag
+.It Pa /usr/share/kimsay/portraits
+Contains the default ASCII art files.
+.It Pa /usr/share/kimsay/dialog
+Contains the archive with the game's dialog in json format.
+.El
+.Sh AUTHOR
+Written by
+.An Naft
+(IcaroJam@github.com).
+.Sh CONTRIBUTING
+Any sugestions, contributions or bug reports may be submitted to the project's repository:
+.Lk github.com/IcaroJam/kimsay
+.Sh COPYRIGHT
+All of Disco Elysium's dialog lines and the original art of the portraits, as well as the characters depicted in said art, are property of their respective owners and authors.
+.Sh SEE ALSO
+.Xr cowsay 6

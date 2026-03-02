@@ -47,7 +47,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			kim.revacholianTxt = true;
 			break;
 		default:
-			std::cerr << "Usage: kimsay [-r] [text]..." << std::endl;
+			std::cerr << "Usage: kimsay [-r] [text...]" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -79,7 +79,7 @@ void processKim(t_kim &kim) {
 	std::string		line;
 
 	// Open the file with the art
-	file.open("kim");
+	file.open("art/kim");
 	if (file.fail()) {
 		std::cerr << "Failed to open the kimFile :(" << std::endl;
 		exit(EXIT_FAILURE);
@@ -112,13 +112,13 @@ void processKim(t_kim &kim) {
 
 void processText(t_kim &kim) {
 	if (kim.revacholianTxt) {
-		std::ifstream f("dialog.json");
+		std::ifstream f("dialog/kim.json");
 		if (f.fail()) {
 			std::cerr << "Failed to open the dialog archive :(" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 		nlohmann::json					data = nlohmann::json::parse(f);
-		auto							arr = data["kim"];
+		auto							arr = data["txt"];
 		std::random_device				rd;
 		std::mt19937 					gen(rd());
 		std::uniform_int_distribution<>	dist(0, arr.size() - 1);
@@ -203,4 +203,4 @@ int main(int argc, char **argv) {
 // - [ ] Better customizability (alt frames, imgs)
 // - [ ] Code cleanup because right now it's garbageeee
 // - [ ] Install script
-// - [ ] Man page
+// - [X] Man page
