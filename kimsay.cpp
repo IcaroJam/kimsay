@@ -13,6 +13,7 @@
 typedef struct kim {
 	bool				revacholianTxt = false;
 	bool				frameLess = false;
+	bool				discoFormat = true;
 	int					wrap = 42;
 	int					gap = 2;
 	std::string			artFile = "art/kim";
@@ -59,7 +60,7 @@ replaceAll( std::string const& original, std::string const& from, std::string co
 void processArgs(t_kim &kim, int argc, char **argv) {
 	int	opt;
 
-	while ((opt = getopt(argc, argv, "rFw:g:f:")) != -1) {
+	while ((opt = getopt(argc, argv, "rFnw:g:f:")) != -1) {
 		switch (opt)
 		{
 		case 'r':
@@ -67,6 +68,9 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			break;
 		case 'F':
 			kim.frameLess = true;
+			break;
+		case 'n':
+			kim.discoFormat = false;
 			break;
 		case 'w':
 			kim.wrap = atoi(optarg);
@@ -78,7 +82,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			kim.artFile = optarg;
 			break;
 		default:
-			std::cerr << "Usage: kimsay [-rF] [-w wrap] [-g gap] [-f artFile] [text...]" << std::endl;
+			std::cerr << "Usage: kimsay [-rFn] [-w wrap] [-g gap] [-f artFile] [text...]" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -171,10 +175,13 @@ void processText(t_kim &kim) {
 		kim.rawText = arr[i].get<std::string>();
 	}
 
-	kim.text = std::stringstream(
+	std::string formatted = kim.discoFormat ?
 		TextFlow::Column("KIM KITSURAGI - " + replaceAll(kim.rawText, "\t", "  "))
-			.width(kim.wrap).indent(2).toString().erase(0, 2)
-	);
+			.width(kim.wrap).indent(2).toString().erase(0, 2) :
+		TextFlow::Column(replaceAll(kim.rawText, "\t", "  "))
+			.width(kim.wrap).toString();
+
+	kim.text = std::stringstream(formatted);
 }
 
 void formatKim(t_kim &kim) {
