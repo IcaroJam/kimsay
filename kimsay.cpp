@@ -90,7 +90,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	// The getopt function permutes argv so nonoptions are
 	// left at the end. The global var optind holds the index of the
 	// first of this nonoptions
-	if (argc > 1) {
+	if (optind < argc) {
 		if (!kim.revacholianTxt) {
 			for (int i = optind; i < argc; i++) {
 				if (kim.rawText.length())
