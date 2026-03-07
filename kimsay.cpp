@@ -92,7 +92,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	// first of this nonoptions
 	if (argc > 1) {
 		if (!kim.revacholianTxt) {
-			for (int i = 1; i < argc; i++) {
+			for (int i = optind; i < argc; i++) {
 				if (kim.rawText.length())
 					kim.rawText += " ";
 				kim.rawText += argv[i];
