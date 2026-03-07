@@ -1,5 +1,5 @@
 # kimsay
-##### Kind of like cowsay, but waaaay more disco.
+###### Kind of like cowsay, but waaaay more disco.
 Kimsay is a command line utility written in c++ that does more or less the same as cowsay, but is Disco Elysium themed.
 
 _What is Disco Elysium you say?_
