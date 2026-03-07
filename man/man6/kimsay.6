@@ -10,6 +10,7 @@
 .Op Fl rF
 .Op Fl f Ar artFile
 .Op Fl w Ar WRAP
+.Op Fl g Ar GAP
 .Op Ar TEXT...
 .Sh DESCRIPTION
 .Nm Kimsay
@@ -35,6 +36,13 @@ The formatted text is word-wrapped at 42 characters by default. If
 .Fl w
 is provided, the text is wrapped at
 .Ar WRAP
+characters instead.
+
+
+The default gap between the portrait and the text is 2 characters wide. The
+.Fl g
+flag changes this width to
+.Ar GAP
 characters instead.
 
 

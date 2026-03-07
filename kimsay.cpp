@@ -14,6 +14,7 @@ typedef struct kim {
 	bool				revacholianTxt = false;
 	bool				frameLess = false;
 	int					wrap = 42;
+	int					gap = 2;
 	std::string			artFile = "art/kim";
 
 	std::stringstream	img;
@@ -58,7 +59,7 @@ replaceAll( std::string const& original, std::string const& from, std::string co
 void processArgs(t_kim &kim, int argc, char **argv) {
 	int	opt;
 
-	while ((opt = getopt(argc, argv, "rFw:f:")) != -1) {
+	while ((opt = getopt(argc, argv, "rFw:g:f:")) != -1) {
 		switch (opt)
 		{
 		case 'r':
@@ -69,6 +70,9 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			break;
 		case 'w':
 			kim.wrap = atoi(optarg);
+			break;
+		case 'g':
+			kim.gap = atoi(optarg);
 			break;
 		case 'f':
 			kim.artFile = optarg;
@@ -194,7 +198,7 @@ void formatKim(t_kim &kim) {
 			if (txt.empty())
 				kim.out << std::endl;
 			else
-				kim.out << "  ";
+				std::fill_n(std::ostream_iterator<std::string>(kim.out), kim.gap, " ");
 		}
 
 		// If there's text left put it in
@@ -202,7 +206,7 @@ void formatKim(t_kim &kim) {
 			// If the text is taller than the image fill with
 			// empty padding to keep alignment
 			if (img.empty())
-				std::fill_n(std::ostream_iterator<std::string>(kim.out), kim.img_w + 2, " ");
+				std::fill_n(std::ostream_iterator<std::string>(kim.out), kim.img_w + kim.gap, " ");
 			kim.out << txt << std::endl;
 		}
 		// Reset the tmps so ifs are handled correctly next loop
