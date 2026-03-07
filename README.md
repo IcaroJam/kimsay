@@ -2,8 +2,10 @@
 ###### Kind of like cowsay, but waaaay more disco.
 Kimsay is a command line utility written in c++ that does more or less the same as cowsay, but is Disco Elysium themed.
 
-_What is Disco Elysium you say?_
+_What is Disco Elysium you say?_  
 If you are asking questions like that one do yourself a favour and go play it. It is a game. A great game.
+
+![A screenshot of the program's output](demo.png)
 ## Installation and usage
 Kimsay is installed by simply running the `install.sh` script in the project's root.
 
