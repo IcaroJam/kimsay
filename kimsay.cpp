@@ -78,7 +78,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			kim.artFile = optarg;
 			break;
 		default:
-			std::cerr << "Usage: kimsay [-rF] [-w wrap] [-f artFile] [text...]" << std::endl;
+			std::cerr << "Usage: kimsay [-rF] [-w wrap] [-g gap] [-f artFile] [text...]" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 	}
