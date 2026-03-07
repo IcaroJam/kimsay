@@ -8,21 +8,22 @@
 #include "TextFlow.hpp"
 #include "json.hpp"
 
-#define MAX_TXT_W 42
-
 
 
 typedef struct kim {
-	bool				revacholianTxt;
+	bool				revacholianTxt = false;
+	bool				frameLess = false;
+	int					wrap = 42;
+	std::string			artFile = "art/kim";
 
 	std::stringstream	img;
-	int					img_w;
-	int					img_h;
+	int					img_w = 0;
+	int					img_h = 0;
 
 	std::string			rawText;
 	std::stringstream	text;
-	int					text_w;
-	int					text_h;
+	int					text_w = 0;
+	int					text_h = 0;
 
 	std::stringstream	out;
 } t_kim;
@@ -35,19 +36,45 @@ int utf8len(const char *s)
 	return len;
 }
 
+std::string
+replaceAll( std::string const& original, std::string const& from, std::string const& to )
+{
+    std::string results;
+    std::string::const_iterator end = original.end();
+    std::string::const_iterator current = original.begin();
+    std::string::const_iterator next = std::search( current, end, from.begin(), from.end() );
+    while ( next != end ) {
+        results.append( current, next );
+        results.append( to );
+        current = next + from.size();
+        next = std::search( current, end, from.begin(), from.end() );
+    }
+    results.append( current, next );
+    return results;
+}
+
 
 
 void processArgs(t_kim &kim, int argc, char **argv) {
 	int	opt;
 
-	while ((opt = getopt(argc, argv, "r")) != -1) {
+	while ((opt = getopt(argc, argv, "rFw:f:")) != -1) {
 		switch (opt)
 		{
 		case 'r':
 			kim.revacholianTxt = true;
 			break;
+		case 'F':
+			kim.frameLess = true;
+			break;
+		case 'w':
+			kim.wrap = atoi(optarg);
+			break;
+		case 'f':
+			kim.artFile = optarg;
+			break;
 		default:
-			std::cerr << "Usage: kimsay [-r] [text...]" << std::endl;
+			std::cerr << "Usage: kimsay [-rF] [-w wrap] [-f artFile] [text...]" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -79,7 +106,7 @@ void processKim(t_kim &kim) {
 	std::string		line;
 
 	// Open the file with the art
-	file.open("art/kim");
+	file.open(kim.artFile);
 	if (file.fail()) {
 		std::cerr << "Failed to open the kimFile :(" << std::endl;
 		exit(EXIT_FAILURE);
@@ -96,16 +123,29 @@ void processKim(t_kim &kim) {
 	file.clear();
 	file.seekg(0);
 
-	// Build the framed image
-	std::string frame = "█";
-	kim.img_w = file_w + 4;
-	kim.img_h = file_h + 2;
+	// Build the image, framed or not
+	if (kim.frameLess) {
+		while (std::getline(file, line)) {
+			int len = utf8len(line.c_str());
+			kim.img << line;
+			std::fill_n(std::ostream_iterator<std::string>(kim.img), file_w - len, " ");
+			kim.img << std::endl;
+		}
+	} else {
+		std::string frame = "█";
+		kim.img_w = file_w + 4;
+		kim.img_h = file_h + 2;
 
-	std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.img_w, frame);
-	kim.img << "\n";
-	while (std::getline(file, line))
-		kim.img << frame << frame << line << frame << frame << std::endl;
-	std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.img_w, frame);
+		std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.img_w, frame);
+		kim.img << "\n";
+		while (std::getline(file, line)) {
+			int len = utf8len(line.c_str());
+			kim.img << frame << frame << line;
+			std::fill_n(std::ostream_iterator<std::string>(kim.img), file_w - len, " ");
+			kim.img << frame << frame << std::endl;
+		}
+		std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.img_w, frame);
+	}
 
 	file.close();
 }
@@ -128,15 +168,15 @@ void processText(t_kim &kim) {
 	}
 
 	kim.text = std::stringstream(
-		TextFlow::Column("KIM KITSURAGI - " + kim.rawText)
-			.width(MAX_TXT_W).indent(2).toString().erase(0, 2)
+		TextFlow::Column("KIM KITSURAGI - " + replaceAll(kim.rawText, "\t", "  "))
+			.width(kim.wrap).indent(2).toString().erase(0, 2)
 	);
 }
 
 void formatKim(t_kim &kim) {
 	std::string img, txt;
 
-	// Start the text after the top of the frame
+	// Start the text one line after the image
 	std::getline(kim.img, img);
 	kim.out << std::endl << img << std::endl;
 
@@ -155,18 +195,21 @@ void formatKim(t_kim &kim) {
 				kim.out << std::endl;
 			else
 				kim.out << "  ";
-		} else {
-			// If the text is taller than the image fill with
-			// empty padding to keep alignment
-			std::fill_n(std::ostream_iterator<std::string>(kim.out), kim.img_w + 2, " ");
 		}
+
 		// If there's text left put it in
 		if (!txt.empty()) {
+			// If the text is taller than the image fill with
+			// empty padding to keep alignment
+			if (img.empty())
+				std::fill_n(std::ostream_iterator<std::string>(kim.out), kim.img_w + 2, " ");
 			kim.out << txt << std::endl;
 		}
 		// Reset the tmps so ifs are handled correctly next loop
 		img = txt = "";
 	}
+
+	kim.out << std::endl;
 }
 
 int main(int argc, char **argv) {

@@ -7,8 +7,9 @@
 .Nd Get some of the wisdom of Precinct 57's best liutenant or make him speak your own.
 .Sh SYNOPSIS
 .Nm
-.Op Fl r
+.Op Fl rF
 .Op Fl f Ar artFile
+.Op Fl w Ar WRAP
 .Op Ar TEXT...
 .Sh DESCRIPTION
 .Nm Kimsay
@@ -17,18 +18,35 @@ If no arguments are provided it reads from standard input until EOF. Otherwise i
 .Ar TEXTs
 , separated by a space.
 
+
 If
 .Fl r
 is provided,
 .Ar TEXTs
 are ignored and random in-game dialog is used instead.
 
-The formatted text is word-wrapped at 42 characters. The resulting text and the portrait are printed to standard output side by side, separated by a 2-wide padding of spaces.
+
+The portrait is surrounded by a solid frame unless
+.Fl F
+is provided.
 
 
-The
+The formatted text is word-wrapped at 42 characters by default. If
+.Fl w
+is provided, the text is wrapped at
+.Ar WRAP
+characters instead.
+
+
+The resulting text and the portrait are printed to standard output side by side, separated by a 2-wide padding of spaces.
+
+
+Use
 .Fl f
-argument is not implemented as of yet.
+to make
+.Ar artFile
+be the source of the portrait instead of the default one.
+
 .Sh FILES
 .Bl -tag
 .It Pa /usr/share/kimsay/portraits
