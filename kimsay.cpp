@@ -16,7 +16,8 @@ typedef struct kim {
 	bool				discoFormat = true;
 	int					wrap = 42;
 	int					gap = 2;
-	std::string			artFile = "art/kim";
+	std::string			artFile = "/usr/share/kimsay/portraits/kim";
+	std::string			discoFile = "/usr/share/kimsay/dialog/kim.json";
 
 	std::stringstream	img;
 	int					img_w = 0;
@@ -90,7 +91,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	// The getopt function permutes argv so nonoptions are
 	// left at the end. The global var optind holds the index of the
 	// first of this nonoptions
-	if (optind < argc) {
+	if (argc > 1 && optind <= argc) {
 		if (!kim.revacholianTxt) {
 			for (int i = optind; i < argc; i++) {
 				if (kim.rawText.length())
@@ -160,7 +161,7 @@ void processKim(t_kim &kim) {
 
 void processText(t_kim &kim) {
 	if (kim.revacholianTxt) {
-		std::ifstream f("dialog/kim.json");
+		std::ifstream f(kim.discoFile);
 		if (f.fail()) {
 			std::cerr << "Failed to open the dialog archive :(" << std::endl;
 			exit(EXIT_FAILURE);
@@ -256,5 +257,5 @@ int main(int argc, char **argv) {
 // - [X] Flag to autopick dialog (cin/args otherwise)
 // - [ ] Better customizability (alt frames, imgs)
 // - [ ] Code cleanup because right now it's garbageeee
-// - [ ] Install script
+// - [X] Install script
 // - [X] Man page
