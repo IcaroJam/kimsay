@@ -45,4 +45,4 @@ mkdir -p $MANDIR
 cp man/man6/kimsay.6 $MANDIR/
 printf "\n${CYAN}Manpage created~$RST"
 
-printf "\n\nYou now have access to the wisdom of 57's finest. Don't let him down."
+printf "\n\nYou now have access to the wisdom of 57's finest. Don't let him down.\n"

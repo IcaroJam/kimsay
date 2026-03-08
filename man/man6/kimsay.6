@@ -17,7 +17,7 @@
 prints an ASCII art portrait of Liutenant Kim Kitsuragi followed by some text in the in-game dialog format (unless
 .Fl n
 is provided).
-If no arguments are provided it reads from standard input until EOF. Otherwise it concatenates the provided 
+If no arguments are provided it reads from standard input until EOF. Otherwise it concatenates the provided
 .Ar TEXTs
 , separated by a space.
 
@@ -38,17 +38,14 @@ The formatted text is word-wrapped at 42 characters by default. If
 .Fl w
 is provided, the text is wrapped at
 .Ar WRAP
-characters instead.
+characters instead. Values under 12 are ignored.
 
 
 The default gap between the portrait and the text is 2 characters wide. The
 .Fl g
 flag changes this width to
 .Ar GAP
-characters instead.
-
-
-The resulting text and the portrait are printed to standard output side by side, separated by a 2-wide padding of spaces.
+characters instead. Values under 0 are ignored.
 
 
 Use
