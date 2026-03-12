@@ -9,6 +9,11 @@
 #include "json.hpp"
 
 
+#ifndef FILEDIR
+	#define FILEDIR "/usr/share"
+#endif
+
+
 
 typedef struct kim {
 	bool				revacholianTxt = false;
@@ -16,11 +21,8 @@ typedef struct kim {
 	bool				discoFormat = true;
 	int					wrap = 42;
 	int					gap = 2;
-#ifndef SHARE_DIR
-# define SHARE_DIR "/usr/share"
-#endif
-	std::string			artFile = SHARE_DIR "/kimsay/portraits/kim";
-	std::string			discoFile = SHARE_DIR "/kimsay/dialog/kim.json";
+	std::string			artFile = FILEDIR "/kimsay/portraits/kim";
+	std::string			discoFile = FILEDIR "/kimsay/dialog/kim.json";
 
 	std::stringstream	img;
 	int					img_w = 0;

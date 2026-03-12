@@ -19,20 +19,21 @@ if ! [ -x "$(command -v c++)" ]; then
 	exit 1
 fi
 
-if [[ "$(uname)" == "Darwin" ]]; then
-	SHAREDIR=/usr/local/share
+# Check if we are in macos
+if [ "$(uname)" == "Darwin" ]; then
+	FILEDIR=/usr/local/share
 	BIN=/usr/local/bin
 	MANDIR=/usr/local/share/man/man6
 else
-	SHAREDIR=/usr/share
+	FILEDIR=/usr/share
 	BIN=/usr/games
 	MANDIR=/usr/share/man/man6
 fi
-DIALOG=$SHAREDIR/kimsay/dialog
-PORTRAITS=$SHAREDIR/kimsay/portraits
+DIALOG=$FILEDIR/kimsay/dialog
+PORTRAITS=$FILEDIR/kimsay/portraits
 
 printf "\nCompiling kimsay..."
-if ! c++ kimsay.cpp -o kimsay -DSHARE_DIR="\"$SHAREDIR\""; then
+if ! c++ kimsay.cpp -o kimsay -D FILEDIR=\"$FILEDIR\"; then
 	printf "\n${RED}Compilation failed :($RST\n\n"
 	exit 1
 fi
