@@ -16,8 +16,11 @@ typedef struct kim {
 	bool				discoFormat = true;
 	int					wrap = 42;
 	int					gap = 2;
-	std::string			artFile = "/usr/share/kimsay/portraits/kim";
-	std::string			discoFile = "/usr/share/kimsay/dialog/kim.json";
+#ifndef SHARE_DIR
+# define SHARE_DIR "/usr/share"
+#endif
+	std::string			artFile = SHARE_DIR "/kimsay/portraits/kim";
+	std::string			discoFile = SHARE_DIR "/kimsay/dialog/kim.json";
 
 	std::stringstream	img;
 	int					img_w = 0;
