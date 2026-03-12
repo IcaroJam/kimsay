@@ -165,8 +165,8 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 
 void processKim(t_kim &kim) {
 	std::ifstream	file;
-	int				file_w;
-	int				file_h;
+	int				file_w = 0;
+	int				file_h = 0;
 
 	std::string		line;
 
