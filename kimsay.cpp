@@ -21,6 +21,7 @@ typedef struct kim {
 	bool				discoFormat = true;
 	int					wrap = 42;
 	int					gap = 2;
+	std::string			name = "KIM KITSURAGI";
 	std::string			artFile = FILEDIR "/kimsay/portraits/kim";
 	std::string			discoFile = FILEDIR "/kimsay/dialog/kim.json";
 
@@ -118,7 +119,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	int	opt;
 	int tmp;
 
-	while ((opt = getopt(argc, argv, "rFnw:g:f:")) != -1) {
+	while ((opt = getopt(argc, argv, "rFuw:g:n:f:")) != -1) {
 		switch (opt)
 		{
 		case 'r':
@@ -127,7 +128,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 		case 'F':
 			kim.frameLess = true;
 			break;
-		case 'n':
+		case 'u':
 			kim.discoFormat = false;
 			break;
 		case 'w':
@@ -140,11 +141,14 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			if (tmp >= 0)
 				kim.gap = atoi(optarg);
 			break;
+		case 'n':
+			kim.name = optarg;
+			break;
 		case 'f':
 			kim.artFile = optarg;
 			break;
 		default:
-			std::cerr << "Usage: kimsay [-rFn] [-w wrap] [-g gap] [-f artFile] [text...]" << std::endl;
+			std::cerr << "Usage: kimsay [-rFu] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -152,7 +156,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	// The getopt function permutes argv so nonoptions are
 	// left at the end. The global var optind holds the index of the
 	// first of this nonoptions
-	if (argc > 1 && optind <= argc) {
+	if (argc > 1 && optind < argc) {
 		if (!kim.revacholianTxt) {
 			for (int i = optind; i < argc; i++) {
 				if (kim.rawText.length())
@@ -160,7 +164,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 				kim.rawText += argv[i];
 			}
 		}
-	} else {
+	} else if (!kim.revacholianTxt) {
 		kim.rawText = std::string( // Read until EOF
 			std::istream_iterator<char>(std::cin >> std::noskipws),
 			std::istream_iterator<char>()
@@ -241,7 +245,7 @@ void processText(t_kim &kim) {
 	validate_and_count_utf8(kim.rawText, "input text");
 
 	std::string formatted = kim.discoFormat ?
-		TextFlow::Column("KIM KITSURAGI - " + replaceAll(kim.rawText, "\t", "  "))
+		TextFlow::Column(kim.name + " - " + replaceAll(kim.rawText, "\t", "  "))
 			.width(kim.wrap).indent(2).toString().erase(0, 2) :
 		TextFlow::Column(replaceAll(kim.rawText, "\t", "  "))
 			.width(kim.wrap).toString();
