@@ -9,8 +9,10 @@ If you are asking questions like that one do yourself a favour and go play it. I
 ## Installation and usage
 Kimsay is installed by simply running the `install.sh` script in the project's root.
 
-The script compiles the source file using `c++` and moves the binary into `/usr/games/`.
-Other program files are put into `/usr/share/kimsay/`.
+The script compiles the source file using `c++` and moves the binary into `/usr/bin/`.
+Other program files are put into `/usr/share/kimsay/`. If you are on mac, they are moved to `/usr/local/bin/` and `/usr/local/share/kimsay/` instead.
+
+_The program should probably default to `/usr/games/` instead, but that would require adding it to the PATH and I don't want to deal with all of that at the moment. Installation will be reworked with a makefile soon enough anyways._
 
 A manpage is also created, but basic usage is similar to cowsay:
 - Using it argument-less makes the program read from standard input and uses that as text.

@@ -26,11 +26,16 @@ if [ "$(uname)" == "Darwin" ]; then
 	MANDIR=/usr/local/share/man/man6
 else
 	FILEDIR=/usr/share
-	BIN=/usr/games
+	BIN=/usr/bin
 	MANDIR=/usr/share/man/man6
 fi
 DIALOG=$FILEDIR/kimsay/dialog
 PORTRAITS=$FILEDIR/kimsay/portraits
+
+# If kimsay is present in the legacy dir, remove it (can't be arsed to mess with PATH rn)
+if [ -x /usr/games/kimsay ]; then
+	rm /usr/games/kimsay
+fi
 
 printf "\nCompiling kimsay..."
 if ! c++ kimsay.cpp -o kimsay -D FILEDIR=\"$FILEDIR\"; then
