@@ -7,53 +7,54 @@
 .Nd Get some of the wisdom of Precinct 57's best liutenant or make him speak your own.
 .Sh SYNOPSIS
 .Nm
-.Op Fl rFn
-.Op Fl f Ar artFile
+.Op Fl rFu
 .Op Fl w Ar WRAP
 .Op Fl g Ar GAP
+.Op Fl n Ar NAME
+.Op Fl f Ar artFile
 .Op Ar TEXT...
 .Sh DESCRIPTION
 .Nm Kimsay
-prints an ASCII art portrait of Liutenant Kim Kitsuragi followed by some text in the in-game dialog format (unless
-.Fl n
-is provided).
+prints an ASCII art framed portrait of Liutenant Kim Kitsuragi followed by some text in the in-game dialog format.
 If no arguments are provided it reads from standard input until EOF. Otherwise it concatenates the provided
 .Ar TEXTs
 , separated by a space.
 
 
-If
-.Fl r
-is provided,
+There are several options available to customize what the program does and how it looks:
+.Bl -tag -width -indent
+.It Fl r
 .Ar TEXTs
-are ignored and random in-game dialog is used instead.
-
-
-The portrait is surrounded by a solid frame unless
-.Fl F
-is provided.
-
-
-The formatted text is word-wrapped at 42 characters by default. If
-.Fl w
-is provided, the text is wrapped at
+are ignored and random in-game dialog is used instead
+.It Fl F
+The portrait is painted frameless
+.It Fl u
+The
+.Ar TEXTs
+are printed without the in-game dialog format (no character name, no " - " and no tabs after each linebreak)
+.It Fl w
+The
+.Ar TEXTs
+are wrapped at
 .Ar WRAP
-characters instead. Values under 12 are ignored.
-
-
-The default gap between the portrait and the text is 2 characters wide. The
-.Fl g
-flag changes this width to
+characters. If this option isn't provided,
+.Ar WRAP
+defaults to 42. Any provided value smaller than 12 is ignored
+.It Fl g
+The gap between the portrait and the
+.Ar TEXTs
+is set to a width of
 .Ar GAP
-characters instead. Values under 0 are ignored.
-
-
-Use
-.Fl f
-to make
+characters. This value defaults to 2. Values under 0 are ignored
+.It Fl n
+Sets the name printed before the provided
+.Ar TEXTs
+to
+.Ar NAME
+.It Fl f
+Sets the path of the used ascii to
 .Ar artFile
-be the source of the portrait instead of the default one.
-
+.El
 .Sh FILES
 .Bl -tag
 .It Pa /usr/share/kimsay/portraits

@@ -25,6 +25,8 @@ Two single-header libraries are used by the project:
 - [Nlohmann's JSON library](https://github.com/nlohmann/json)
 - [Philsquared's Textflow](https://github.com/catchorg/textflowcpp/)
 
-Many thanks for their work ^^.
+Special thanks to scribegoat for their **amazing** [Disco-Elysium-Scribe](https://disco-elysium-scribe.pages.dev/), it made it possible to get the lines said by Kim, and it is an overall great tool, also very pretty :)
+
+Many thanks to all of them for their work ^^.
 
 _All of Disco Elysium's dialog lines and the original art of the portraits, as well as the characters depicted in said art, are property of their respective owners and authors._
