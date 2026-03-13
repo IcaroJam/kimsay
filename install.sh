@@ -19,13 +19,26 @@ if ! [ -x "$(command -v c++)" ]; then
 	exit 1
 fi
 
-BIN=/usr/games
-DIALOG=/usr/share/kimsay/dialog
-PORTRAITS=/usr/share/kimsay/portraits
-MANDIR=/usr/share/man/man6
+# Check if we are in macos
+if [ "$(uname)" == "Darwin" ]; then
+	FILEDIR=/usr/local/share
+	BIN=/usr/local/bin
+	MANDIR=/usr/local/share/man/man6
+else
+	FILEDIR=/usr/share
+	BIN=/usr/bin
+	MANDIR=/usr/share/man/man6
+fi
+DIALOG=$FILEDIR/kimsay/dialog
+PORTRAITS=$FILEDIR/kimsay/portraits
+
+# If kimsay is present in the legacy dir, remove it (can't be arsed to mess with PATH rn)
+if [ -x /usr/games/kimsay ]; then
+	rm /usr/games/kimsay
+fi
 
 printf "\nCompiling kimsay..."
-if ! c++ kimsay.cpp -o kimsay; then
+if ! c++ kimsay.cpp -o kimsay -D FILEDIR=\"$FILEDIR\"; then
 	printf "\n${RED}Compilation failed :($RST\n\n"
 	exit 1
 fi
