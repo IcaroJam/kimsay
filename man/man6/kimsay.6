@@ -9,6 +9,7 @@
 .Nm
 .Op Fl h
 .Op Fl rFu
+.Op Fl w Ar CHARACTER
 .Op Fl w Ar WRAP
 .Op Fl g Ar GAP
 .Op Fl n Ar NAME
@@ -25,7 +26,7 @@ If no arguments are provided it reads from standard input until EOF. Otherwise i
 There are several options available to customize what the program does and how it looks:
 .Bl -tag -width -indent
 .It Fl h
-Print a help message and nothing else.
+Print a help message and nothing else
 .It Fl r
 .Ar TEXTs
 are ignored and random in-game dialog is used instead
@@ -35,6 +36,12 @@ The portrait is painted frameless
 The
 .Ar TEXTs
 are printed without the in-game dialog format (no character name, no " - " and no tabs after each linebreak)
+.It Fl c
+Instead of Kim, use the portrait and name of
+.Ar CHARACTER.
+Portrait-less characters (like Limbic System) are text-only unless a custom
+.Ar artFile
+is provided
 .It Fl w
 The
 .Ar TEXTs

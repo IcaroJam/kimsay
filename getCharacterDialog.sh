@@ -4,7 +4,7 @@
 # with code $1 and save it as $2.json
 # E.g.: ./getCharacterDialog.sh 397 conceptualization
 
-IN=dialog/wholeDialog.json
+IN=wholeDialog.json
 OUT=dialog/$2.json
 
 echo -e '{\n\t"txt": [' > $OUT # Create the opening lines of the json
