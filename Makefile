@@ -59,12 +59,12 @@ remLegacy:
 
 $(BINARY): $(SRC)
 	@printf "\nCompiling kimsay..."
+	@mkdir -p $(BINDIR)
 	@$(CXX) $(CXXFLAGS) $(SRC)
 	@printf "\n\t$(CYAN)Compilation done!$(RST)\n"
 
 .PHONY: dirs
 dirs:
-	@mkdir -p $(BINDIR)
 	@mkdir -p $(ARTDIR)
 	@mkdir -p $(TXTDIR)
 	@mkdir -p $(MANDIR)
@@ -81,10 +81,11 @@ dialog: $(DSTTXT)
 manpage: $(DSTMAN)
 	@printf "\n$(CYAN)Manpage created~$(RST)\n"
 
-$(DSTART): $(SRCART)
-$(DSTTXT): $(SRCTXT)
+$(ARTDIR)/%: art/%
+	@cp $< $@
+$(TXTDIR)/%: dialog/%
+	@cp $< $@
 $(DSTMAN): $(SRCMAN)
-$(DATADIR)/%:
 	@cp $< $@
 
 .PHONY: uninstall
@@ -93,6 +94,6 @@ uninstall:
 		printf "\n$(RED)Attempting to perform a global uninstall without sudo priviledges,\nrun 'sudo make uninstall' or change the installation prefix to\nuninstall locally with 'make uninstall PREFIX=~/.local'$(RST)\n\n"; \
 		exit 1; \
 	fi
-	@rm $(BINARY)
-	@rm -rf $(DATADIR)/kimsay
-	@rm $(DSTMAN)
+	-@rm $(BINARY)
+	-@rm -rf $(DATADIR)/kimsay
+	-@rm $(DSTMAN)
