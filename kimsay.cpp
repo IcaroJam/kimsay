@@ -116,12 +116,16 @@ std::string replaceAll(std::string const& original, std::string const& from, std
 
 
 void processArgs(t_kim &kim, int argc, char **argv) {
-	int	opt;
-	int tmp;
+	int			opt;
+	int 		tmp;
+	std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
 
-	while ((opt = getopt(argc, argv, "rFuw:g:n:f:")) != -1) {
+	while ((opt = getopt(argc, argv, "hrFuw:g:n:f:")) != -1) {
 		switch (opt)
 		{
+		case 'h':
+			std::cout << helpStr << std::endl;
+			exit(EXIT_SUCCESS);
 		case 'r':
 			kim.revacholianTxt = true;
 			break;
@@ -148,7 +152,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			kim.artFile = optarg;
 			break;
 		default:
-			std::cerr << "Usage: kimsay [-rFu] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]" << std::endl;
+			std::cerr << helpStr << std::endl;
 			exit(EXIT_FAILURE);
 		}
 	}
