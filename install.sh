@@ -38,7 +38,7 @@ if [ -x /usr/games/kimsay ]; then
 fi
 
 printf "\nCompiling kimsay..."
-if ! c++ kimsay.cpp -o kimsay -D FILEDIR=\"$FILEDIR\"; then
+if ! c++ src/kimsay.cpp -o kimsay -D FILEDIR=\"$FILEDIR\"; then
 	printf "\n${RED}Compilation failed :($RST\n\n"
 	exit 1
 fi
@@ -47,11 +47,11 @@ mkdir -p $BIN
 mv kimsay $BIN/kimsay
 
 mkdir -p $PORTRAITS
-cp art/kim $PORTRAITS/kim
+cp art/* $PORTRAITS/
 printf "\n${CYAN}Art files created~$RST"
 
 mkdir -p $DIALOG
-cp dialog/kim.json $DIALOG/kim.json
+cp dialog/* $DIALOG/
 printf "\n${CYAN}Dialog files created~$RST"
 
 mkdir -p $MANDIR

@@ -4,16 +4,31 @@
 #include <sstream>
 #include <random>
 #include <iterator>
+#include <map>
 
 #include "TextFlow.hpp"
 #include "json.hpp"
 
 
+
 #ifndef FILEDIR
-	#define FILEDIR "/usr/share"
+	#define FILEDIR "/usr/local/share"
 #endif
 
 
+
+const static std::map<std::string, std::string> characters {
+	{"kim", "KIM KITSURAGI"},
+	{"conceptualization", "CONCEPTUALIZATION"},
+};
+
+std::string artFrom(const std::string &c) {
+	return FILEDIR + std::string("/kimsay/portraits/") + c;
+}
+
+std::string dialogFrom(const std::string &c) {
+	return FILEDIR + std::string("/kimsay/dialog/") + c + ".json";
+}
 
 typedef struct kim {
 	bool				revacholianTxt = false;
@@ -21,9 +36,9 @@ typedef struct kim {
 	bool				discoFormat = true;
 	int					wrap = 42;
 	int					gap = 2;
-	std::string			name = "KIM KITSURAGI";
-	std::string			artFile = FILEDIR "/kimsay/portraits/kim";
-	std::string			discoFile = FILEDIR "/kimsay/dialog/kim.json";
+	std::string			name = characters.at("kim");
+	std::string			artFile = artFrom("kim");
+	std::string			dialogFile = dialogFrom("kim");
 
 	std::stringstream	img;
 	int					img_w = 0;
@@ -118,11 +133,12 @@ std::string replaceAll(std::string const& original, std::string const& from, std
 void processArgs(t_kim &kim, int argc, char **argv) {
 	int			opt;
 	int 		tmp;
-	std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
+	std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
+	std::string	knownChars = "Default:\n\tkim\n"
+								"Skills - Intellect:\n\tconceptualization\n";
 
-	while ((opt = getopt(argc, argv, "hrFuw:g:n:f:")) != -1) {
-		switch (opt)
-		{
+	while ((opt = getopt(argc, argv, "hrFuc:w:g:n:f:")) != -1) {
+		switch (opt) {
 		case 'h':
 			std::cout << helpStr << std::endl;
 			exit(EXIT_SUCCESS);
@@ -134,6 +150,16 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			break;
 		case 'u':
 			kim.discoFormat = false;
+			break;
+		case 'c':
+			if (!characters.count(optarg)) {
+				std::cerr << "Unknown character '" << optarg << "'." << std::endl
+					<< "Available characters are:" << std::endl << knownChars << std::endl;
+				exit(EXIT_FAILURE);
+			}
+			kim.name = characters.at(optarg);
+			kim.artFile = artFrom(optarg);
+			kim.dialogFile = dialogFrom(optarg);
 			break;
 		case 'w':
 			tmp = atoi(optarg);
@@ -230,7 +256,7 @@ void processKim(t_kim &kim) {
 
 void processText(t_kim &kim) {
 	if (kim.revacholianTxt) {
-		std::ifstream f(kim.discoFile);
+		std::ifstream f(kim.dialogFile);
 		if (f.fail()) {
 			std::cerr << "Failed to open the dialog archive :(" << std::endl;
 			exit(EXIT_FAILURE);
