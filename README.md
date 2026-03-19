@@ -6,20 +6,34 @@ _What is Disco Elysium you say?_
 If you are asking questions like that one do yourself a favour and go play it. It is a game. A great game.
 
 ![A screenshot of the program's output](demo.png)
-## Installation and usage
-Kimsay is installed by simply running the `install.sh` script in the project's root.
+## Installation
+There are two main ways of installing kimsay:
+- `sudo make install` will install for all users.
+	- The binary will be put into `/usr/local/bin`
+	- Other program files are put into `/usr/local/share/kimsay`
+	- The manpage is put into `/usr/local/share/man/man6`
+- `make install PREFIX=~/.local` will install for your user only.
+	- The binary will be put into `~/.local/bin`. Make sure this is in your path if you choose this method.
+	- Other program files are put into `~/.local/share/kimsay`
+	- The manpage is put into `~/.local/share/man/man6`
 
-The script compiles the source file using `c++` and moves the binary into `/usr/bin/`.
-Other program files are put into `/usr/share/kimsay/`. If you are on mac, they are moved to `/usr/local/bin/` and `/usr/local/share/kimsay/` instead.
+You can further refine the installation by overriding `BINDIR` (path to the execurable), `DATADIR` (path to the portraits and dialog) and `MANDIR` (path to the manpage).
 
-_The program should probably default to `/usr/games/` instead, but that would require adding it to the PATH and I don't want to deal with all of that at the moment. Installation will be reworked with a makefile soon enough anyways._
+_The binary path should probably default to `/usr/local/games/` instead, but that would require adding it to the PATH during installation and I don't want to deal with all of that at the moment._
+## Usage
+If no arguments are provided, the program reads from standard input until EOF. Otherwise it concatenates the provided arguments, separated by a space.
 
-A manpage is also created, but basic usage is similar to cowsay:
-- Using it argument-less makes the program read from standard input and uses that as text.
-- If arguments are passed they are joined, separated by a single space, and used as the text.
-- With the `-r` (as in _Revachol_) option, the text is taken from a collection of lines actually said in-game by Kim. Beware of spoilers.
-
-There are some other options to customize the program's looks, check the manpage!
+| Flag | Default | Description | Example |
+| --- | --- | --- | --- |
+| -h | | Prints a help message and nothing else | `kimsay -h` |
+| -r | | _As in Revachol._ The text printed is random in-game dialog said by the character. Beware of spoilers | `kimsay -r` |
+| -F | | The portrait is painted frameless | `kimsay -F` |
+| -u | | The text is printed without the disco format | `kimsay -u` |
+| -c | kim | Instead of Kim, use the portrait and name of another character | `kimsay -c conceptualization` |
+| -w | 42 | The text is wrapped at this amount of columns. Values under 12 are ignored | `kimsay -w 30` |
+| -g | 2 | The amount of columns that separate the portrait from the text. Values under 0 are ignored | `kimsay -g 5` |
+| -n |  | Override the name of the character | `kimsay -n "Finn the Human"` |
+| -f |  | The path to a custom file to use as portrait | `kimsay -f ./ascii/deer` |
 ## Acknowledgements and disclaimers
 Two single-header libraries are used by the project:
 - [Nlohmann's JSON library](https://github.com/nlohmann/json)
