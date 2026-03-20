@@ -16,10 +16,12 @@ TXTDIR	= $(DATADIR)/kimsay/dialog
 MANDIR	= $(DATADIR)/man/man6
 
 # Sources
-SRC		= src/kimsay.cpp
+SRC		= $(addprefix src/, kimsay.cpp getRandomLine.cpp getFormattedText.cpp utils.cpp)
 SRCART	= $(wildcard art/*)
 SRCTXT	= $(wildcard dialog/*.json)
 SRCMAN	= man/man6/kimsay.6
+
+OBJ		= $(addsuffix .o, $(basename $(SRC)))
 
 # Destinies
 BINARY	= $(BINDIR)/kimsay
@@ -29,7 +31,7 @@ DSTMAN	= $(MANDIR)/kimsay.6
 
 # Compilation
 CXX			= c++
-CXXFLAGS	= -s -flto -o $(BINARY) -D FILEDIR=\"$(DATADIR)\"
+CXXFLAGS	= -s -flto -D FILEDIR=\"$(DATADIR)\"
 
 # Rules ##################################
 .PHONY: all
@@ -57,11 +59,15 @@ remLegacy:
 		printf "\tManpage deleted (rm /usr/share/man/man6/kimsay.6)\n"; \
 	fi
 
-$(BINARY): $(SRC)
+$(BINARY): $(OBJ)
 	@printf "\nCompiling kimsay..."
 	@mkdir -p $(BINDIR)
-	@$(CXX) $(CXXFLAGS) $(SRC)
+	@$(CXX) $(CXXFLAGS) -o $(BINARY) $(OBJ)
 	@printf "\n\t$(CYAN)Compilation done!$(RST)\n"
+
+%.o: %.cpp
+	@printf "\nCompiling object..."
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: dirs
 dirs:
@@ -97,3 +103,7 @@ uninstall:
 	-@rm $(BINARY)
 	-@rm -rf $(DATADIR)/kimsay
 	-@rm $(DSTMAN)
+
+.PHONY: clean
+clean:
+	@rm -f $(OBJ)
