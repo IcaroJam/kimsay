@@ -4,7 +4,6 @@
 #include <sstream>
 #include <random>
 #include <iterator>
-#include <map>
 
 #include "TextFlow.hpp"
 #include "json.hpp"
@@ -20,6 +19,11 @@
 const static std::map<std::string, std::string> characters {
 	{"kim", "KIM KITSURAGI"},
 	{"conceptualization", "CONCEPTUALIZATION"},
+	{"drama", "DRAMA"},
+	{"encyclopedia", "ENCYCLOPEDIA"},
+	{"logic", "LOGIC"},
+	{"rhetoric", "RHETORIC"},
+	{"visualCalc", "VISUAL CALCULUS"},
 };
 
 std::string artFrom(const std::string &c) {
@@ -135,7 +139,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	int 		tmp;
 	std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
 	std::string	knownChars = "Default:\n\tkim\n"
-								"Skills - Intellect:\n\tconceptualization\n";
+								"Skills - Intellect:\n\tconceptualization\n\tdrama\n\tencyclopedia\n\tlogic\n\trhetoric\n\tvisualCalc\n";
 
 	while ((opt = getopt(argc, argv, "hrFuc:w:g:n:f:")) != -1) {
 		switch (opt) {
