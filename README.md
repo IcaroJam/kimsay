@@ -13,11 +13,11 @@ There are two main ways of installing kimsay:
 	- Other program files are put into `/usr/local/share/kimsay`
 	- The manpage is put into `/usr/local/share/man/man6`
 - `make install PREFIX=~/.local` will install for your user only.
-	- The binary will be put into `~/.local/bin`. Make sure this is in your path if you choose this method.
+	- The binary will be put into `~/.local/bin`. Make sure this is in your path if you choose this method
 	- Other program files are put into `~/.local/share/kimsay`
 	- The manpage is put into `~/.local/share/man/man6`
 
-You can further refine the installation by overriding `BINDIR` (path to the execurable), `DATADIR` (path to the portraits and dialog) and `MANDIR` (path to the manpage).
+You can further refine the installation by overriding `BINDIR` (path to the executable), `DATADIR` (path to the portraits and dialog) and `MANDIR` (path to the manpage).
 
 _The binary path should probably default to `/usr/local/games/` instead, but that would require adding it to the PATH during installation and I don't want to deal with all of that at the moment._
 ## Usage
@@ -26,7 +26,7 @@ If no arguments are provided, the program reads from standard input until EOF. O
 | Flag | Default | Description | Example |
 | --- | --- | --- | --- |
 | -h | | Prints a help message and nothing else | `kimsay -h` |
-| -r | | _As in Revachol._ The text printed is random in-game dialog said by the character. Beware of spoilers | `kimsay -r` |
+| -r | | _As in Revachol._ The text printed is random in-game dialog said by the character, beware of spoilers. Other text sources are ignored | `kimsay -r` |
 | -F | | The portrait is painted frameless | `kimsay -F` |
 | -u | | The text is printed without the disco format | `kimsay -u` |
 | -c | kim | Instead of Kim, use the portrait and name of another character | `kimsay -c conceptualization` |
