@@ -23,7 +23,13 @@ const static std::map<std::string, std::string> characters {
 	{"encyclopedia", "ENCYCLOPEDIA"},
 	{"logic", "LOGIC"},
 	{"rhetoric", "RHETORIC"},
-	{"visualCalc", "VISUAL CALCULUS"},
+	{"visualCalculus", "VISUAL CALCULUS"},
+	{"authority", "AUTHORITY"},
+	{"empathy", "EMPATHY"},
+	{"espritDeCorps", "ESPRIT DE CORPS"},
+	{"inlandEmpire", "INLAND EMPIRE"},
+	{"suggestion", "SUGGESTION"},
+	{"volition", "VOLITION"},
 };
 
 std::string artFrom(const std::string &c) {
@@ -139,7 +145,8 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	int 		tmp;
 	std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
 	std::string	knownChars = "Default:\n\tkim\n"
-								"Skills - Intellect:\n\tconceptualization\n\tdrama\n\tencyclopedia\n\tlogic\n\trhetoric\n\tvisualCalc\n";
+								"Skills - Intellect:\n\tconceptualization\n\tdrama\n\tencyclopedia\n\tlogic\n\trhetoric\n\tvisualCalculus\n"
+								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n";
 
 	while ((opt = getopt(argc, argv, "hrFuc:w:g:n:f:")) != -1) {
 		switch (opt) {
