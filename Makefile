@@ -40,7 +40,7 @@ all:
 	@printf "\n\nYou can customize the installation path with 'make install PREFIX=<<your path>>',\nwhich will install the executable in PREFIX/bin, the files in PREFIX/share and the manpage in PREFIX/share/man/man6.\nYou can further refine these paths by assigning 'BINDIR', 'DATADIR' and 'MANDIR' respectively.\n\n"
 
 .PHONY: install
-install: remLegacy $(BINARY) dirs art dialog manpage
+install: remLegacy dirs $(BINARY) art dialog manpage
 	@printf "\nYou now have access to the wisdom of 57's finest. Don't let him down.\n\n"
 
 .PHONY: remLegacy
@@ -71,6 +71,7 @@ $(BINARY): $(OBJ)
 
 .PHONY: dirs
 dirs:
+	@mkdir -p $(BINDIR)
 	@mkdir -p $(ARTDIR)
 	@mkdir -p $(TXTDIR)
 	@mkdir -p $(MANDIR)
