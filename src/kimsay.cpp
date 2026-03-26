@@ -41,6 +41,10 @@ const static std::map<std::string, std::string> characters {
 	{"perception", "PERCEPTION"},
 	{"reactionSpeed", "REACTION SPEED"},
 	{"savoirFaire", "SAVOIR FAIRE"},
+	{"harry", "HARRIER DU BOIS"},
+	{"cuno", "CUNO"},
+	{"joyce", "JOYCE MESSIER"},
+	{"klaasje", "KLAASJE"},
 };
 
 std::string artFrom(const std::string &c) {
@@ -83,7 +87,8 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 								"Skills - Intellect:\n\tconceptualization\n\tdrama\n\tencyclopedia\n\tlogic\n\trhetoric\n\tvisualCalculus\n"
 								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n"
 								"Skills - Physique:\n\telectrochemistry\n\tendurance\n\thalfLight\n\tpainThreshold\n\tphysicalInstrument\n\tshivers\n"
-								"Skills - Motorics:\n\tcomposure\n\thandEyeCoordination\n\tinterfacing\n\tperception\n\treactionSpeed\n\tsavoirFaire\n";
+								"Skills - Motorics:\n\tcomposure\n\thandEyeCoordination\n\tinterfacing\n\tperception\n\treactionSpeed\n\tsavoirFaire\n"
+								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n";
 
 	while ((opt = getopt(argc, argv, "hrFuc:w:g:n:f:")) != -1) {
 		switch (opt) {
