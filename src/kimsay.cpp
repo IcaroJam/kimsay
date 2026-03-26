@@ -29,6 +29,18 @@ const static std::map<std::string, std::string> characters {
 	{"inlandEmpire", "INLAND EMPIRE"},
 	{"suggestion", "SUGGESTION"},
 	{"volition", "VOLITION"},
+	{"electrochemistry", "ELECTROCHEMISTRY"},
+	{"endurance", "ENDURANCE"},
+	{"halfLight", "HALF LIGHT"},
+	{"painThreshold", "PAIN THRESHOLD"},
+	{"physicalInstrument", "PHYSICAL INSTRUMENT"},
+	{"shivers", "SHIVERS"},
+	{"composure", "COMPOSURE"},
+	{"handEyeCoordination", "HAND/EYE COORDINATION"},
+	{"interfacing", "INTERFACING"},
+	{"perception", "PERCEPTION"},
+	{"reactionSpeed", "REACTION SPEED"},
+	{"savoirFaire", "SAVOIR FAIRE"},
 };
 
 std::string artFrom(const std::string &c) {
@@ -69,7 +81,9 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
 	std::string	knownChars = "Default:\n\tkim\n"
 								"Skills - Intellect:\n\tconceptualization\n\tdrama\n\tencyclopedia\n\tlogic\n\trhetoric\n\tvisualCalculus\n"
-								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n";
+								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n"
+								"Skills - Physique:\n\telectrochemistry\n\tendurance\n\thalfLight\n\tpainThreshold\n\tphysicalInstrument\n\tshivers\n"
+								"Skills - Motorics:\n\tcomposure\n\thandEyeCoordination\n\tinterfacing\n\tperception\n\treactionSpeed\n\tsavoirFaire\n";
 
 	while ((opt = getopt(argc, argv, "hrFuc:w:g:n:f:")) != -1) {
 		switch (opt) {
