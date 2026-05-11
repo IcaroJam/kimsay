@@ -45,7 +45,17 @@ const static std::map<std::string, std::string> characters {
 	{"cuno", "CUNO"},
 	{"joyce", "JOYCE MESSIER"},
 	{"klaasje", "KLAASJE"},
+	{"titus", "TITUS HARDIE"},
+	{"deserter", "THE DESERTER"},
+	{"garte", "GARTE, THE CAFETERIA MANAGER"},
 };
+const static std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
+const static std::string	knownChars = "Default:\n\tkim\n"
+								"Skills - Intellect:\n\tconceptualization\n\tdrama\n\tencyclopedia\n\tlogic\n\trhetoric\n\tvisualCalculus\n"
+								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n"
+								"Skills - Physique:\n\telectrochemistry\n\tendurance\n\thalfLight\n\tpainThreshold\n\tphysicalInstrument\n\tshivers\n"
+								"Skills - Motorics:\n\tcomposure\n\thandEyeCoordination\n\tinterfacing\n\tperception\n\treactionSpeed\n\tsavoirFaire\n"
+								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n\ttitus\n\tdeserter\n";
 
 std::string artFrom(const std::string &c) {
 	return FILEDIR + std::string("/kimsay/portraits/") + c;
@@ -82,13 +92,6 @@ typedef struct kim {
 void processArgs(t_kim &kim, int argc, char **argv) {
 	int			opt;
 	int 		tmp;
-	std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
-	std::string	knownChars = "Default:\n\tkim\n"
-								"Skills - Intellect:\n\tconceptualization\n\tdrama\n\tencyclopedia\n\tlogic\n\trhetoric\n\tvisualCalculus\n"
-								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n"
-								"Skills - Physique:\n\telectrochemistry\n\tendurance\n\thalfLight\n\tpainThreshold\n\tphysicalInstrument\n\tshivers\n"
-								"Skills - Motorics:\n\tcomposure\n\thandEyeCoordination\n\tinterfacing\n\tperception\n\treactionSpeed\n\tsavoirFaire\n"
-								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n";
 
 	while ((opt = getopt(argc, argv, "hrFuc:w:g:n:f:")) != -1) {
 		switch (opt) {
