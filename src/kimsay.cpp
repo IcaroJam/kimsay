@@ -48,6 +48,22 @@ const static std::map<std::string, std::string> characters {
 	{"titus", "TITUS HARDIE"},
 	{"deserter", "THE DESERTER"},
 	{"garte", "GARTE, THE CAFETERIA MANAGER"},
+	{"lena", "LENA, THE CRYPTOZOOLOGIST'S WIFE"},
+	{"noid", "NOID"},
+	{"soona", "SOONA, THE PROGRAMMER"},
+	{"jean", "JEAN VICQUEMARE"},
+	{"idiot", "IDIOT DOOM SPIRAL"},
+	{"acele", "ACELE"},
+	{"steban", "STEBAN, THE STUDENT COMMUNIST"},
+	{"andre", "ANDRE"},
+	{"measurehead", "MEASUREHEAD"},
+	{"sunday", "SUNDAY FRIEND"},
+	{"roy", "BIRD'S NEST ROY"},
+	{"plaisance", "PLAISANCE"},
+	{"warship", "COALITION WARSHIP ARCHER"},
+	{"eggHead", "EGG HEAD"},
+	{"dicemaker", "NOVELTY DICEMAKER"},
+	{"gary", "GARY, THE CRYPTOFASCIST"},
 };
 const static std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
 const static std::string	knownChars = "Default:\n\tkim\n"
@@ -55,7 +71,7 @@ const static std::string	knownChars = "Default:\n\tkim\n"
 								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n"
 								"Skills - Physique:\n\telectrochemistry\n\tendurance\n\thalfLight\n\tpainThreshold\n\tphysicalInstrument\n\tshivers\n"
 								"Skills - Motorics:\n\tcomposure\n\thandEyeCoordination\n\tinterfacing\n\tperception\n\treactionSpeed\n\tsavoirFaire\n"
-								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n\ttitus\n\tdeserter\n";
+								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n\ttitus\n\tdeserter\n\tgarte\n\tlena\n\tnoid\n\tsoona\n\tjean\n\tidiot\n\tacele\n\tsteban\n\tandre\n\tmeasurehead\n\tsunday\n\troy\n\tplaisance\n\twarship\n\teggHead\n\tdicemaker\n\tgary\n";
 
 std::string artFrom(const std::string &c) {
 	return FILEDIR + std::string("/kimsay/portraits/") + c;
