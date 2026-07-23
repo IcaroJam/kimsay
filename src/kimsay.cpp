@@ -82,6 +82,19 @@ const static std::map<std::string, std::string> characters {
 	{"hanged", "THE HANGED MAN"},
 	{"ruby", "RUBY, THE INSTIGATOR"},
 	{"racistDriver", "RACIST LORRY DRIVER"},
+	{"tommy", "TOMMY LE HOMME"},
+	{"siileng", "SIILENG"},
+	{"smoker", "SMOKER ON THE BALCONY"},
+	{"alain", "ALAIN"},
+	{"eugene", "EUGENE"},
+	{"echoMaker", "ECHO MAKER"},
+	{"kortenaer", "KORTENAER"},
+	{"phasmid", "INSULINDIAN PHASMID"},
+	{"paledriver", "PALEDRIVER"},
+	{"jules", "JULES PIDIEU"},
+	{"notJean", "MAN WITH SUNGLASSES"},
+	{"elisabeth", "ELISABETH"},
+	{"tiago", "TIAGO"},
 };
 const static std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
 const static std::string	knownChars = "Default:\n\tkim\n"
@@ -89,7 +102,7 @@ const static std::string	knownChars = "Default:\n\tkim\n"
 								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n"
 								"Skills - Physique:\n\telectrochemistry\n\tendurance\n\thalfLight\n\tpainThreshold\n\tphysicalInstrument\n\tshivers\n"
 								"Skills - Motorics:\n\tcomposure\n\thandEyeCoordination\n\tinterfacing\n\tperception\n\treactionSpeed\n\tsavoirFaire\n"
-								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n\ttitus\n\tdeserter\n\tgarte\n\tlena\n\tnoid\n\tsoona\n\tjean\n\tidiot\n\tacele\n\tsteban\n\tandre\n\tmeasurehead\n\tsunday\n\troy\n\tplaisance\n\twarship\n\teggHead\n\tdicemaker\n\tgary\n\trene\n\tlilienne\n\tcunoesse\n\tmorell\n\tcindy\n\tmanana\n\tdolores\n\tgaston\n\tworkerWoman\n\trichGuy\n\tannette\n\ttrant\n\twasherWoman\n\thanged\n\truby\n\tracistDriver\n";
+								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n\ttitus\n\tdeserter\n\tgarte\n\tlena\n\tnoid\n\tsoona\n\tjean\n\tidiot\n\tacele\n\tsteban\n\tandre\n\tmeasurehead\n\tsunday\n\troy\n\tplaisance\n\twarship\n\teggHead\n\tdicemaker\n\tgary\n\trene\n\tlilienne\n\tcunoesse\n\tmorell\n\tcindy\n\tmanana\n\tdolores\n\tgaston\n\tworkerWoman\n\trichGuy\n\tannette\n\ttrant\n\twasherWoman\n\thanged\n\truby\n\tracistDriver\n\ttommy\n\tsiileng\n\tsmoker\n\talain\n\teugene\n\techoMaker\n\tkortenaer\n\tphasmid\n\tpaledriver\n\tjules\n\tnotJean\n\telisabeth\n\ttiago\n";
 
 std::string artFrom(const std::string &c) {
 	return std::string(FILEDIR) + ARTDIR + c;
