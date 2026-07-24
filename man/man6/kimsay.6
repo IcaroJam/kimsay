@@ -12,6 +12,9 @@
 .Op Fl w Ar CHARACTER
 .Op Fl w Ar WRAP
 .Op Fl g Ar GAP
+.Op Fl W Ar borderWidth
+.Op Fl H Ar borderHeight
+.Op Fl b Ar borderChar
 .Op Fl n Ar NAME
 .Op Fl f Ar artFile
 .Op Ar TEXT...
@@ -51,8 +54,14 @@ defaults to 42. Any provided value smaller than 12 is ignored
 The gap between the portrait and the
 .Ar TEXTs
 is set to a width of
-.Ar GAP
-characters. This value defaults to 2. Values under 0 are ignored
+.Ar GAP.
+Defaults to 2
+.It Fl W
+The thickness in characters of the sides of the image frame. Defaults to 2. Values under 1 are ignored
+.It Fl H
+The thickness in characters of the top and bottom borders of the image frame. Defaults to 1. Values under 1 are ignored
+.It Fl b
+The character to use as a border for the image. '█' is used by default. If a string is provided its first character is used
 .It Fl n
 Sets the name printed before the provided
 .Ar TEXTs

@@ -1,3 +1,7 @@
+#include <algorithm>
+#include <getopt.h>
+#include <string>
+#include <uchar.h>
 #include <unistd.h>
 #include <fstream>
 #include <iostream>
@@ -96,7 +100,7 @@ const static std::map<std::string, std::string> characters {
 	{"elisabeth", "ELISABETH"},
 	{"tiago", "TIAGO"},
 };
-const static std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-n name] [-f artFile] [text...]";
+const static std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-W borderWidth] [-H borderHeight] [-b borderChar] [-n name] [-f artFile] [text...]";
 const static std::string	knownChars = "Default:\n\tkim\n"
 								"Skills - Intellect:\n\tconceptualization\n\tdrama\n\tencyclopedia\n\tlogic\n\trhetoric\n\tvisualCalculus\n"
 								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n"
@@ -118,6 +122,9 @@ typedef struct kim {
 	bool				discoFormat = true;
 	int					wrap = 42;
 	int					gap = 2;
+	int					borderW = 2;
+	int					borderH = 1;
+	std::string			borderC = "█";
 	std::string			name = characters.at("kim");
 	std::string			artFile = artFrom("kim");
 	std::string			dialogFile = dialogFrom("kim");
@@ -140,7 +147,7 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 	int			opt;
 	int 		tmp;
 
-	while ((opt = getopt(argc, argv, "hrFuc:w:g:n:f:")) != -1) {
+	while ((opt = getopt(argc, argv, "hrFuc:w:g:W:H:b:n:f:")) != -1) {
 		switch (opt) {
 		case 'h':
 			std::cout << helpStr << std::endl;
@@ -173,6 +180,19 @@ void processArgs(t_kim &kim, int argc, char **argv) {
 			tmp = atoi(optarg);
 			if (tmp >= 0)
 				kim.gap = atoi(optarg);
+			break;
+		case 'W':
+			tmp = atoi(optarg);
+			if (tmp >= 1)
+				kim.borderW = tmp;
+			break;
+		case 'H':
+			tmp = atoi(optarg);
+			if (tmp >= 1)
+				kim.borderH = tmp;
+			break;
+		case 'b':
+			kim.borderC = extractFirst(optarg, kim.borderC);
 			break;
 		case 'n':
 			kim.name = optarg;
@@ -239,19 +259,26 @@ void processKim(t_kim &kim) {
 			kim.img << std::endl;
 		}
 	} else {
-		std::string frame = "█";
-		kim.img_w = file_w + 4;
-		kim.img_h = file_h + 2;
+		kim.img_w = file_w + 2 * kim.borderW;
+		kim.img_h = file_h + 2 * kim.borderH;
 
-		std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.img_w, frame);
-		kim.img << "\n";
+		std::string	frameRow;
+		for (int i = 0; i < kim.img_w; i++)
+			frameRow.append(kim.borderC);
+		std::string	framePiece;
+		for (int i = 0; i < kim.borderW; i++)
+			framePiece.append(kim.borderC);
+
+		for (int i = 0; i < kim.borderH; i++)
+			kim.img << frameRow << std::endl;
 		while (std::getline(file, line)) {
 			int len = utf8len(line.c_str());
-			kim.img << frame << frame << line;
+			kim.img << framePiece << line;
 			std::fill_n(std::ostream_iterator<std::string>(kim.img), file_w - len, " ");
-			kim.img << frame << frame << std::endl;
+			kim.img << framePiece << std::endl;
 		}
-		std::fill_n(std::ostream_iterator<std::string>(kim.img), kim.img_w, frame);
+		for (int i = 0; i < kim.borderH; i++)
+			kim.img << frameRow << std::endl;
 	}
 
 	file.close();
@@ -314,7 +341,7 @@ void formatKim(t_kim &kim) {
 }
 
 int main(int argc, char **argv) {
-	t_kim				kim;
+	t_kim	kim;
 
 	// Handle and depurate command line arguments
 	processArgs(kim, argc, argv);

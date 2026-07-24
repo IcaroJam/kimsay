@@ -63,6 +63,22 @@ int validate_and_count_utf8(const std::string& str, const std::string & place) {
     return chars; // All bytes validated
 }
 
+std::string extractFirst(const std::string& str, const std::string& fallback) {
+    const uint8_t*	bytes = reinterpret_cast<const uint8_t*>(str.data());
+	const uint8_t byte = bytes[0];
+
+	if (byte <= 0x7F) // 1-byte: 0xxxxxxx
+		return str.substr(0, 1);
+	if ((byte & 0xE0) == 0xC0) // 0b110xxxxx (2-byte)
+		return str.substr(0, 2);
+	if ((byte & 0xF0) == 0xE0) // 0b1110xxxx (3-byte)
+		return str.substr(0, 3);
+	if ((byte & 0xF8) == 0xF0) // 0b11110xxx (4-byte)
+		return str.substr(0, 4);
+
+    return fallback;
+}
+
 std::string replaceAll(std::string const& original, std::string const& from, std::string const& to) {
     std::string					results;
     std::string::const_iterator	end = original.end();

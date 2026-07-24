@@ -32,6 +32,9 @@ If no arguments are provided, the program reads from standard input until EOF. O
 | -c | kim | Instead of Kim, use the portrait and name of another character | `kimsay -c conceptualization` |
 | -w | 42 | The text is wrapped at this amount of columns. Values under 12 are ignored | `kimsay -w 30` |
 | -g | 2 | The amount of columns that separate the portrait from the text. Values under 0 are ignored | `kimsay -g 5` |
+| -W | 2 | The amount of columns in the left and right of the image frame. Values under 1 are ignored | `kimsay -W 4` |
+| -H | 1 | The amount of rows in the top and bottom of the image frame. Values under 1 are ignored | `kimsay -H 3` |
+| -b | █ | The character to use in the image frame. Characters after the first are ignored | `kimsay -b #` |
 | -n |  | Override the name of the character | `kimsay -n "Finn the Human"` |
 | -f |  | The path to a custom file to use as portrait | `kimsay -f ./ascii/deer` |
 ## Acknowledgements and disclaimers
