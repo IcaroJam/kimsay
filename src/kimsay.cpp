@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <getopt.h>
 #include <string>
-#include <uchar.h>
 #include <unistd.h>
 #include <fstream>
 #include <iostream>
@@ -99,6 +98,43 @@ const static std::map<std::string, std::string> characters {
 	{"notJean", "MAN WITH SUNGLASSES"},
 	{"elisabeth", "ELISABETH"},
 	{"tiago", "TIAGO"},
+	{"frittte", "FRITTTE CLERK"},
+	{"scabLead", "SCAB LEADER"},
+	{"shanky", "SHANKY"},
+	{"leo", "EASY LEO"},
+	{"brain", "ANCIENT REPTILIAN BRAIN"},
+	{"eyes", "MYSTERIOUS PAIR OF EYES"},
+	{"judit", "JUDIT MINOT"},
+	{"sylvie", "SYLVIE"},
+	{"gardener", "THE GARDENER"},
+	{"rosemary", "ROSEMARY"},
+	{"glen", "GLEN"},
+	{"limbic", "LIMBIC SYSTEM"},
+	{"yvonne", "EAST-INSULINDIAN REPEATER STATION"},
+	{"cleaning", "CLEANING LADY"},
+	{"babe", "MEASUREHEAD'S BABE"},
+	{"horseFace", "HORSE-FACED WOMAN"},
+	{"lily", "LITTLE LILY"},
+	{"pissF", "PISSF****T"},
+	{"pigs", "THE PIGS"},
+	{"fuckWorld", "FUCK THE WORLD"},
+	{"twin", "LILIENNE'S TWIN"},
+	{"mirror", "MIRROR"},
+	{"nix", "NIX GOTTLIEB"},
+	{"sleeper", "SLEEPING DOCKWORKER"},
+	{"mack", "MACK TORSON"},
+	{"abigail", "DON'T CALL ABIGAIL"},
+	{"kinema", "COUPRIS KINEEMA"},
+	{"waterLock", "MAN ON WATER LOCK"},
+	{"angus", "FAT ANGUS"},
+	{"chester", "CHESTER MCLAINE"},
+	{"goracy", "GORĄCY KUBEK"},
+	{"theo", "THEO"},
+	{"realEstate", "REAL ESTATE AGENT"},
+	{"dePaule", "DE PAULE"},
+	{"library", "JAMROCK PUBLIC LIBRARY"},
+	{"cunoDad", "CUNO'S DAD"},
+	{"ruud", "RUUD HOENKLOEWEN"},
 };
 const static std::string	helpStr = "Usage: kimsay [-h] [-rFu] [-c character] [-w wrap] [-g gap] [-W borderWidth] [-H borderHeight] [-b borderChar] [-n name] [-f artFile] [text...]";
 const static std::string	knownChars = "Default:\n\tkim\n"
@@ -106,7 +142,7 @@ const static std::string	knownChars = "Default:\n\tkim\n"
 								"Skills - Psyche:\n\tauthority\n\tempathy\n\tespritDeCorps\n\tinlandEmpire\n\tsuggestion\n\tvolition\n"
 								"Skills - Physique:\n\telectrochemistry\n\tendurance\n\thalfLight\n\tpainThreshold\n\tphysicalInstrument\n\tshivers\n"
 								"Skills - Motorics:\n\tcomposure\n\thandEyeCoordination\n\tinterfacing\n\tperception\n\treactionSpeed\n\tsavoirFaire\n"
-								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n\ttitus\n\tdeserter\n\tgarte\n\tlena\n\tnoid\n\tsoona\n\tjean\n\tidiot\n\tacele\n\tsteban\n\tandre\n\tmeasurehead\n\tsunday\n\troy\n\tplaisance\n\twarship\n\teggHead\n\tdicemaker\n\tgary\n\trene\n\tlilienne\n\tcunoesse\n\tmorell\n\tcindy\n\tmanana\n\tdolores\n\tgaston\n\tworkerWoman\n\trichGuy\n\tannette\n\ttrant\n\twasherWoman\n\thanged\n\truby\n\tracistDriver\n\ttommy\n\tsiileng\n\tsmoker\n\talain\n\teugene\n\techoMaker\n\tkortenaer\n\tphasmid\n\tpaledriver\n\tjules\n\tnotJean\n\telisabeth\n\ttiago\n";
+								"Characters:\n\tharry\n\tcuno\n\tjoyce\n\tklaasje\n\ttitus\n\tdeserter\n\tgarte\n\tlena\n\tnoid\n\tsoona\n\tjean\n\tidiot\n\tacele\n\tsteban\n\tandre\n\tmeasurehead\n\tsunday\n\troy\n\tplaisance\n\twarship\n\teggHead\n\tdicemaker\n\tgary\n\trene\n\tlilienne\n\tcunoesse\n\tmorell\n\tcindy\n\tmanana\n\tdolores\n\tgaston\n\tworkerWoman\n\trichGuy\n\tannette\n\ttrant\n\twasherWoman\n\thanged\n\truby\n\tracistDriver\n\ttommy\n\tsiileng\n\tsmoker\n\talain\n\teugene\n\techoMaker\n\tkortenaer\n\tphasmid\n\tpaledriver\n\tjules\n\tnotJean\n\telisabeth\n\ttiago\n\tfrittte\n\tscabLead\n\tshanky\n\tleo\n\tbrain\n\teyes\n\tjudit\n\tsylvie\n\tgardener\n\trosemary\n\tglen\n\tlimbic\n\tyvonne\n\tcleaning\n\tbabe\n\thorseFace\n\tlily\n\tpissF\n\tpigs\n\tfuckWorld\n\ttwin\n\tmirror\n\tnix\n\tsleeper\n\tmack\n\tabigail\n\tkinema\n\twaterLock\n\tangus\n\tchester\n\tgoracy\n\ttheo\n\trealEstate\n\tdePaule\n\tlibrary\n\tcunoDad\n\truud\n";
 
 std::string artFrom(const std::string &c) {
 	return std::string(FILEDIR) + ARTDIR + c;
