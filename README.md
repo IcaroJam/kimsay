@@ -29,7 +29,7 @@ If no arguments are provided, the program reads from standard input until EOF. O
 | -r | | _As in Revachol._ The text printed is random in-game dialog said by the character, beware of spoilers. Other text sources are ignored | `kimsay -r` |
 | -F | | The portrait is painted frameless | `kimsay -F` |
 | -u | | The text is printed without the disco format | `kimsay -u` |
-| -c | kim | Instead of Kim, use the portrait and name of another character | `kimsay -c conceptualization` |
+| -c | kim | Instead of Kim, use the portrait and name of another character. Prints a list of available characters on error | `kimsay -c conceptualization` |
 | -w | 42 | The text is wrapped at this amount of columns. Values under 12 are ignored | `kimsay -w 30` |
 | -g | 2 | The amount of columns that separate the portrait from the text. Values under 0 are ignored | `kimsay -g 5` |
 | -W | 2 | The amount of columns in the left and right of the image frame. Values under 1 are ignored | `kimsay -W 4` |
